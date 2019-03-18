@@ -48,11 +48,12 @@ y = tf.placeholder('float32', [None,10])
 # dense, fully-connected layer of 196 nodes, reLu activation
 input_layer = tf.layers.dense(inputs=x, units=196, activation=tf.nn.relu)
 # dense, fully-connected layer of 10 nodes, softmax activation
-prediction = tf.layers.dense(inputs=input_layer, units=10, activation=tf.nn.softmax)
+logits = tf.layers.dense(inputs=input_layer, units=10, activation=None)
+prediction = tf.nn.softmax(logits)
 
 
 # Define a cross entropy loss function
-loss = tf.reduce_mean(tf.losses.softmax_cross_entropy(logits=prediction, onehot_labels=y))
+loss = tf.reduce_mean(tf.losses.softmax_cross_entropy(logits=logits, onehot_labels=y))
 
 # Define the optimizer function
 optimizer = tf.train.AdamOptimizer(learning_rate=LEARNRATE).minimize(loss)
